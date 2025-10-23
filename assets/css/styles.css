@@ -36,6 +36,9 @@ body {
 }
 img { max-width: 100%; display: block; border-radius: 12px; }
 
+/* Prevent horizontal scroll on small screens */
+body { overflow-x: hidden; }
+
 a { color: var(--text); text-decoration: none; }
 a:hover { color: var(--accent); }
 
@@ -83,10 +86,14 @@ a:hover { color: var(--accent); }
 .hero h1 { font-size: clamp(2rem, 5vw, 3rem); margin: .25rem 0 .5rem; }
 .hero .lede { color: var(--muted); font-size: 1.05rem; max-width: 56ch; }
 .cta { display: flex; gap: .8rem; margin-top: 1rem; }
+.hero .cta .btn { text-align: center; }
 .quick-stats { display: flex; gap: 1.2rem; list-style: none; padding: 0; margin: 1.2rem 0 0; color: var(--muted); }
 .quick-stats strong { color: var(--text); }
 .hero-media { min-height: 320px; border-radius: 16px; background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; border: 1px solid var(--border); box-shadow: var(--shadow); }
 .accent { background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Allow highlight list to wrap on small screens */
+.quick-stats { flex-wrap: wrap; }
 
 /* Sections */
 .section { padding: 3.5rem 0; }
@@ -179,8 +186,41 @@ a:hover { color: var(--accent); }
 }
 
 @media (max-width: 720px) {
-  .menu { display: none; position: absolute; right: 1rem; top: 56px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: .5rem; flex-direction: column; width: 200px; }
+  /* Scope dropdown to nav and ensure it doesn't cause horizontal scroll */
+  .primary-nav { position: relative; }
+  .menu { display: none; position: absolute; right: .5rem; top: calc(100% + .5rem); background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: .5rem; flex-direction: column; width: min(86vw, 280px); max-width: 92vw; }
   .menu.show { display: flex; }
+  /* Also support pure-ARIA toggle if JS fails */
+  .nav-toggle[aria-expanded="true"] + .menu { display: flex; }
   .nav-toggle { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 36px; border-radius: 8px; background: var(--panel); border: 1px solid var(--border); color: var(--text); }
   .actions { margin-left: .5rem; }
+  /* Place actions before nav-toggle so the hamburger is at the far right on mobile */
+  .actions { order: 1; }
+  .primary-nav { order: 2; margin-left: auto; }
+}
+
+/* Improve readability and prevent overflow on very small screens */
+@media (max-width: 640px) {
+  /* Let long education headings wrap */
+  .edu h3 { white-space: normal; }
+  /* Tweak hero spacing */
+  .hero-inner { gap: 1.25rem; padding: 2.5rem 0 1.75rem; }
+  .hero .lede { font-size: 1rem; }
+  /* Stack call-to-actions */
+  .cta { flex-direction: column; align-items: stretch; }
+  /* Reduce section spacing slightly */
+  .section { padding: 2.5rem 0; }
+  /* Make skills/projects single column to avoid squish */
+  .skills-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  /* Keep header tidy on narrow screens and keep actions inline with hamburger */
+  .nav { flex-wrap: nowrap; align-items: center; gap: .5rem; }
+  .brand-name { display: none; }
+  .actions { order: 0; width: auto; margin: 0 0 0 .5rem; display: flex; align-items: center; gap: .4rem; }
+  .actions .btn.small { padding: .4rem .6rem; }
+  /* Slightly smaller hero media to fit viewport */
+  .hero-media { min-height: 220px; }
 }
