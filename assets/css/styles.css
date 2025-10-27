@@ -169,7 +169,7 @@ a:hover { color: var(--accent); }
 
 /* Contact */
 .contact-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-.contact-card { display: flex; gap: .8rem; align-items: center; background: var(--panel); border: 1px solid var(--border); padding: .9rem; border-radius: 12px; }
+.contact-card { display: flex; gap: .8rem; align-items: center; background: var(--panel); border: 1px solid var(--border); padding: .9rem; border-radius: 12px; cursor: pointer; }
 .contact-card .icon { font-size: 1.3rem; }
 
 /* Footer */
@@ -223,4 +223,37 @@ a:hover { color: var(--accent); }
   .actions .btn.small { padding: .4rem .6rem; }
   /* Slightly smaller hero media to fit viewport */
   .hero-media { min-height: 220px; }
+}
+
+/* Toasts */
+.toast-container {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  z-index: 1000;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .75rem;
+  box-shadow: var(--shadow);
+  font-size: .9rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.toast.show { opacity: 1; transform: translateY(0); animation: toast-in .2s ease-out; }
+.toast.hiding { opacity: 0; transform: translateY(8px); }
+
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .toast, .toast.show, .toast.hiding { transition: none !important; animation: none !important; }
 }

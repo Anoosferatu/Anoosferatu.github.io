@@ -71,4 +71,84 @@
       media.addEventListener('blur', reset, true);
     });
   }
+
+  // Copy phone number on click (with toast feedback)
+  (function initPhoneCopy() {
+    const cards = Array.from(document.querySelectorAll('.contact-card[data-phone], a.contact-card[href^="tel:"]'));
+    if (!cards.length) return;
+
+    function ensureToastContainer() {
+      let c = document.querySelector('.toast-container');
+      if (!c) {
+        c = document.createElement('div');
+        c.className = 'toast-container';
+        document.body.appendChild(c);
+      }
+      return c;
+    }
+
+    function showToast(message) {
+      const container = ensureToastContainer();
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.textContent = message;
+      container.appendChild(toast);
+      // animate in
+      requestAnimationFrame(() => toast.classList.add('show'));
+      // auto-hide with transitionend for reliable fade-out
+      const DURATION = 2000;
+      setTimeout(() => {
+        const removeAfter = () => toast.remove();
+        let removed = false;
+        const onEnd = (e) => {
+          if (e.propertyName === 'opacity' || e.propertyName === 'transform') {
+            if (!removed) { removed = true; toast.removeEventListener('transitionend', onEnd); removeAfter(); }
+          }
+        };
+        toast.addEventListener('transitionend', onEnd);
+        // Trigger exit animation
+        toast.classList.add('hiding');
+        toast.classList.remove('show');
+        // Fallback in case transitionend doesn't fire
+        setTimeout(() => { if (!removed) { removed = true; toast.removeEventListener('transitionend', onEnd); removeAfter(); } }, 400);
+      }, DURATION);
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+      // Fallback for older browsers/insecure context
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+      document.body.removeChild(ta);
+      return ok ? Promise.resolve() : Promise.reject(new Error('copy failed'));
+    }
+
+    cards.forEach(el => {
+      const href = el.getAttribute('href') || '';
+      const dataPhone = el.getAttribute('data-phone') || '';
+      const isTel = href.startsWith('tel:');
+      const number = dataPhone || href.replace(/^tel:/, '');
+      if (!number) return;
+
+      el.addEventListener('click', (e) => {
+        // For non-tel anchors, prevent navigation (e.g., href="#")
+        if (!isTel && el.tagName === 'A') e.preventDefault();
+        copyText(number)
+          .then(() => showToast('Phone number copied'))
+          .catch(() => showToast('Copy failed — please copy manually'));
+      });
+    });
+  })();
 })();
