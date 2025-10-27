@@ -44,6 +44,27 @@
   // Year
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
   
+  // Back to top button
+  const backToTopBtn = document.querySelector('.back-to-top');
+  if (backToTopBtn) {
+    // Show/hide button based on scroll position
+    function toggleBackToTop() {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    }
+    
+    window.addEventListener('scroll', toggleBackToTop);
+    toggleBackToTop(); // Check initial state
+    
+    // Scroll to top on click
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  
   // Parallax hover for project screenshots (skips if reduced motion)
   const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!prefersReduced) {

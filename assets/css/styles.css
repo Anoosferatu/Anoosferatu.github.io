@@ -225,6 +225,68 @@ a:hover { color: var(--accent); }
   .hero-media { min-height: 220px; }
 }
 
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 5rem;
+  right: 4rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .3s ease, visibility .3s, background-color .2s ease;
+  z-index: 999;
+}
+
+.back-to-top svg {
+  width: 28px;
+  height: 28px;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #0b1020;
+  transform: translateY(-2px);
+}
+
+.back-to-top:active {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top { transition: none !important; }
+}
+
+/* Adjust toast container to avoid overlap with back-to-top button */
+@media (max-width: 640px) {
+  .back-to-top {
+    bottom: 4.5rem;
+    right: 2rem;
+    width: 52px;
+    height: 52px;
+  }
+  
+  .back-to-top svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
 /* Toasts */
 .toast-container {
   position: fixed;
