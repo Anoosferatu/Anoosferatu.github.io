@@ -1,4 +1,4 @@
-Accessible at (anas-sharif.site)[https://anas-sharif.site]
+Accessible at [anas-sharif.site](https://anas-sharif.site)
 
 # Simple Resume Website
 
