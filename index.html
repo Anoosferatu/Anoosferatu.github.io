@@ -100,11 +100,11 @@
         <h2>Project</h2>
         <div class="projects-grid">
           <article class="project">
-            <a class="media" href="https://breyerhelp.site" target="_blank" rel="noopener" aria-label="BreyerHelp.site">
-              <img class="screenshot" src="assets/img/breyerhelp-screenshot.png" alt="Screenshot of BreyerHelp.site" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1527195575508-5b969f2327ab?auto=format&fit=crop&w=1200&q=80'" />
+            <a class="media" href="https://talktobreyer.site" target="_blank" rel="noopener" aria-label="talktobreyer.site" data-project-unavailable="The webserver is no longer running, so this website is unavailable.">
+              <img class="screenshot" src="assets/img/talktobreyer-screenshot.png" alt="Screenshot of talktobreyer.site" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1527195575508-5b969f2327ab?auto=format&fit=crop&w=1200&q=80'" />
             </a>
             <div class="content">
-              <h3>BreyerHelp.site — Student Project Website</h3>
+              <h3>talktobreyer.site — Student Project Website</h3>
               <p>A student‑built website featuring a complaint management system for submitting issues and feedback, tracking case status, and receiving responses — designed with clear navigation, responsive layout, and accessible content.</p>
               <ul class="tags small">
                 <li>HTML</li>
@@ -114,7 +114,7 @@
                 <li>MySQL</li>
                 <li>Student Project</li>
               </ul>
-              <p><a href="https://breyerhelp.site" target="_blank" rel="noopener">Visit breyerhelp.site →</a></p>
+              <p><a href="https://talktobreyer.site" target="_blank" rel="noopener" data-project-unavailable="The webserver is no longer running, so this website is unavailable.">Visit talktobreyer.site →</a></p>
             </div>
           </article>
         </div>
@@ -185,6 +185,19 @@
       <path d="M18 15l-6-6-6 6"/>
     </svg>
   </button>
+
+  <div class="modal-backdrop" data-modal-backdrop hidden></div>
+  <section class="modal" id="availability-modal" role="dialog" aria-modal="true" aria-labelledby="availability-modal-title" aria-describedby="availability-modal-desc" hidden>
+    <div class="modal-card">
+      <button class="modal-close" type="button" aria-label="Close dialog" data-modal-close>×</button>
+      <p class="modal-kicker">Project unavailable</p>
+      <h2 id="availability-modal-title">This project site is offline</h2>
+      <p id="availability-modal-desc">The webserver is no longer running, so the website is unavailable right now.</p>
+      <div class="modal-actions">
+        <button class="btn primary" type="button" data-modal-close>Got it</button>
+      </div>
+    </div>
+  </section>
 
   <script src="assets/js/main.js" defer></script>
 </body>

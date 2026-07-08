@@ -5,6 +5,10 @@
   const navToggle = document.querySelector('.nav-toggle');
   const menu = document.getElementById('menu');
   const yearEl = document.getElementById('year');
+  const modal = document.getElementById('availability-modal');
+  const modalBackdrop = document.querySelector('[data-modal-backdrop]');
+  const modalCloseButtons = Array.from(document.querySelectorAll('[data-modal-close]'));
+  let lastFocusedElement = null;
 
   // Persisted theme
   const saved = localStorage.getItem('theme');
@@ -39,6 +43,48 @@
         navToggle?.setAttribute('aria-expanded', 'false');
       }
     });
+  });
+
+  // Project availability notice for links to the retired student project site
+  document.querySelectorAll('[data-project-unavailable]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const message = link.getAttribute('data-project-unavailable') || 'This website is unavailable.';
+      const desc = modal?.querySelector('#availability-modal-desc');
+      if (desc) desc.textContent = message;
+
+      lastFocusedElement = document.activeElement;
+      modal?.removeAttribute('hidden');
+      modalBackdrop?.removeAttribute('hidden');
+      document.body.classList.add('modal-open');
+
+      const initialFocus = modal?.querySelector('[data-modal-close]');
+      if (initialFocus && typeof initialFocus.focus === 'function') {
+        initialFocus.focus();
+      }
+    });
+  });
+
+  function closeModal() {
+    if (modal) modal.setAttribute('hidden', '');
+    if (modalBackdrop) modalBackdrop.setAttribute('hidden', '');
+    document.body.classList.remove('modal-open');
+
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+  }
+
+  modalCloseButtons.forEach((button) => {
+    button.addEventListener('click', closeModal);
+  });
+
+  modalBackdrop?.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.hasAttribute('hidden')) {
+      closeModal();
+    }
   });
 
   // Year

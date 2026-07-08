@@ -319,3 +319,108 @@ a:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .toast, .toast.show, .toast.hiding { transition: none !important; animation: none !important; }
 }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(3, 6, 12, .72);
+  backdrop-filter: blur(4px);
+  z-index: 1090;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 1.25rem;
+  z-index: 1100;
+}
+
+.modal:not([hidden]),
+.modal-backdrop:not([hidden]) {
+  display: grid;
+}
+
+.modal-backdrop:not([hidden]) {
+  display: block;
+}
+
+.modal-card {
+  position: relative;
+  width: min(100%, 540px);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)), var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.45);
+  padding: 1.5rem;
+  transform: translateY(10px) scale(.98);
+  opacity: 0;
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+.modal-kicker {
+  margin: 0 0 .35rem;
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+.modal-card h2 {
+  margin: 0 0 .6rem;
+  font-size: 1.5rem;
+}
+
+.modal-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: .7rem;
+  right: .7rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: var(--panel);
+}
+
+.modal:not([hidden]) .modal-card,
+.modal-backdrop:not([hidden]) {
+  opacity: 1;
+}
+
+.modal:not([hidden]) .modal-card {
+  transform: translateY(0) scale(1);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop, .modal-card { transition: none !important; }
+}
